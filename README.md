@@ -8,3 +8,4 @@
 
 ## Notes
 * For simplicity, home altitude will be set using coordinates from the first waypoint so you MUST START MISSION FROM LAUNCH SITE.
+* Data retrieved from [Open Elevation API](https://open-elevation.com/)
