@@ -43,7 +43,7 @@ class TerrainFollow
   def coordinates
     @lines.map do |line|
       line_arr = line.split
-      [line_arr[LATITUDE].dup.insert(2, ".").to_f, line_arr[LONGITUDE].dup.insert(4, ".").to_f] # insert decimals because inav doesn't have them??!?
+      [line_arr[LATITUDE].dup.insert(-8, ".").to_f, line_arr[LONGITUDE].dup.insert(-8, ".").to_f] # insert decimals because inav doesn't have them??!?
     end
   end
 
