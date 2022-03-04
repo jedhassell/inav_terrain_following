@@ -1,5 +1,5 @@
-# inav_terrain_following
-"sort of"
+# Inav Terrain Following
+A simple POC to implement terrain following in Inav.
 ## Usage
 * In Inav, perform `diff all` on the command line.  
 * Copy the waypoints into a file (I used `terrain.txt`.  See example).  
