@@ -1,5 +1,4 @@
 require "httparty"
-require "byebug"
 
 # tested on inav 3.0.1 (obviously, going to refactor for 4.1 once i can get to my fc)
 
