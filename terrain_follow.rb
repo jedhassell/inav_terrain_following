@@ -1,4 +1,5 @@
 require "httparty"
+require "byebug"
 
 # tested on inav 3.0.1 (obviously, going to refactor for 4.1 once i can get to my fc)
 
@@ -21,7 +22,7 @@ class TerrainFollow
 
     raw_altitudes.each_with_index do |raw_altitude, i|
       line_arr = @lines[i].split
-      line_arr[ALTITUDE] = raw_altitude - home_altitude + DESIRED_ALTITUDE  # subtract home_altitude because gps always sets home to 0 altitude
+      line_arr[ALTITUDE] = (raw_altitude - home_altitude + DESIRED_ALTITUDE).to_i  # subtract home_altitude because gps always sets home to 0 altitude
       results << line_arr.join(" ") + "\n"
     end
 
@@ -31,13 +32,25 @@ class TerrainFollow
 
   private
 
+  def altitudes(coordinates)
+    response = HTTParty.post("https://api.opentopodata.org/v1/srtm30m",
+                             headers: { "Accept" => "application/json", "Content-Type" => "application/json" },
+                             body: payload(coordinates))
+
+    fail response.body unless response.success?
+    response["results"].map { |r| r["elevation"] * 100 } # *100 for conversion from m to cm
+  end
+
   def payload(coordinates)
     locations = []
     coordinates.each do |lat, long|
-      locations << { latitude: lat, longitude: long }
+      locations <<  "#{lat},#{long}"
     end
 
-    { locations: locations }.to_json
+    data = {
+      locations: locations.join('|'),
+      interpolation: "cubic"
+    }.to_json
   end
 
   def coordinates
@@ -45,15 +58,6 @@ class TerrainFollow
       line_arr = line.split
       [line_arr[LATITUDE].dup.insert(-8, ".").to_f, line_arr[LONGITUDE].dup.insert(-8, ".").to_f] # insert decimals because inav doesn't have them??!?
     end
-  end
-
-  def altitudes(coordinates)
-    response = HTTParty.post("https://api.open-elevation.com/api/v1/lookup",
-                             headers: { "Accept" => "application/json", "Content-Type" => "application/json" },
-                             body: payload(coordinates))
-
-    fail response.body unless response.success?
-    response["results"].map { |r| r["elevation"] * 100 } # *100 for conversion from m to cm
   end
 end
 
