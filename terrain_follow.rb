@@ -7,7 +7,7 @@ class TerrainFollow
   LATITUDE = 3
   LONGITUDE = 4
   ALTITUDE = 5
-  DESIRED_ALTITUDE = 12192
+  DESIRED_ALTITUDE = 12192 # 400ft
 
   def initialize(home_altitude = nil)
     @str = File.read(ARGV[0])
@@ -49,7 +49,7 @@ class TerrainFollow
 
     data = {
       locations: locations.join('|'),
-      interpolation: "cubic"
+      interpolation: "nearest"
     }.to_json
   end
 
