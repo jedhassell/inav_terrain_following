@@ -1,10 +1,12 @@
 # Inav Terrain Following
 A simple POC to implement terrain following in Inav.
 ## Usage
-* In Inav, perform `diff all` on the command line.  
+* In Inav, perform `wp` on the command line.  
 * Copy the waypoints into a file (I used `terrain.txt`.  See example).  
 * Run `ruby terrain_follow.rb terrain.txt`
 * Results are in `terrain_results.txt`
+* copy and paste in CLI
+* save waypoints `wp save`
 
 ## Notes
 * For simplicity, home altitude will be set using coordinates from the first waypoint so you MUST START MISSION FROM LAUNCH SITE.
